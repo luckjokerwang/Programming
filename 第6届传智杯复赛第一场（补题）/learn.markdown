@@ -42,3 +42,35 @@ for num in a:
     count[num] = count.get(num, 0) + 1
 ```
 第一种效率更高
+## reduce
+reduce 是 Python 标准库中的一个内置函数，用于对可迭代对象中的元素进行**累积**操作。它接受两个参数：
+1. 函数：用于累积操作的函数，该函数接受两个参数并返回一个值。
+2. 可迭代对象：要累积操作的可迭代对象。
+reduce 函数通过反复调用累积函数，将可迭代对象中的元素累积成一个单一的值。
+例如: 
+```python
+from functools import reduce
+
+# 计算列表中所有元素的乘积
+def multiply(x, y):
+    return x * y
+
+result = reduce(multiply, [1, 2, 3, 4])
+print(result)  # 输出: 24
+
+# 计算列表中所有元素的和
+def add(x, y):
+    return x + y
+
+result = reduce(add, [1, 2, 3, 4])
+print(result)  # 输出: 10
+```
+## get(key,default)
+get(key,default) 是 Python 字典（dict）中的一个方法，用于获取指定键的值。如果键存在于字典中，则返回对应的值；如果键不存在，则返回默认值（default）。
+例如: 
+```python
+dict = {'a': 1, 'b': 2, 'c': 3}
+print(dict.get('a'))  # 输出: 1
+print(dict.get('d', 0))  # 输出: 0
+```
+

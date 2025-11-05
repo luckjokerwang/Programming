@@ -1,0 +1,10 @@
+mod =10**9+7
+a =str(input())
+max_char =max(a)
+min_char =min(a)
+len =len(a)
+count = pow(25,len,mod)
+dis1 =ord('z')-ord(max_char)
+dis2 =ord(min_char)-ord('a')
+dir =max(dis1,dis2)
+print(count-dis1-dis2)
