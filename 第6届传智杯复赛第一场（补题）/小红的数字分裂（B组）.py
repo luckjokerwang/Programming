@@ -1,21 +1,15 @@
+from functools import reduce
+from math import gcd
+
+def find_gcd(list_numbers):
+    return reduce(lambda x,y:gcd(x,y),list_numbers)
 a=int(input())
 b =list(map(int,input().split()))
-b.sort()
-sum=b[0]
-count =0
-flag =1
-for num in b[1:]:
-    if num%b[0]==0 and flag==1:
-        count+=num%b[0]-1
-    else:
-        flag=0
-    sum+=num
-if flag==1:
-    print(count)
-    
-else:
-    print(sum*2/b[0])
-
+x=find_gcd(b)
+sum =0
+for num in b:
+    sum+=(num//x)-1
+print(sum)
 # import math
 # from math import gcd
 # from functools import reduce
