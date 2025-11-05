@@ -30,4 +30,15 @@ print(list(map(str, input().split())))
 # 输入: 1 2 3
 # 输出: ['1', '2', '3']
 ```
-
+## 递归累加
+```
+from collections import defaultdict
+count = defaultdict(int)
+for num in a:
+    count[num] += 1
+```
+```
+for num in a:
+    count[num] = count.get(num, 0) + 1
+```
+第一种效率更高
