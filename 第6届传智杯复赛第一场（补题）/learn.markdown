@@ -74,3 +74,12 @@ print(dict.get('a'))  # 输出: 1
 print(dict.get('d', 0))  # 输出: 0
 ```
 
+## ord
+ord() 是 Python 内置函数，用于返回字符的 Unicode 码点值。
+例如: 
+```python
+print(ord('a'))  # 输出: 97
+print(ord('A'))  # 输出: 65
+```
+
+## mod 要注意范围和条件
