@@ -1,37 +1,4 @@
-# from collections import defaultdict
-# import sys
 
-# mod =10**9+7
-# def solve():
-#     sys.setrecursionlimit(1<<25)
-#     n=int(sys.stdin.readline())
-#     color =sys.stdin.readline().strip()
-#     parent =list(map(int,sys.stdin.readline().split()))
-
-#     tree =defaultdict(list)
-#     for i in range(2,n+1):
-#         tree[parent[i-2]].append(i)
-
-#     dp=[[0]*3 for _ in range(n+1)]
-
-#     stack=[(1,False)]
-#     while stack:
-#         u,visited=stack.pop()
-#         if not visited:
-#             stack.append((u,True))
-#             for v in reversed(tree[u]):
-#                 stack.append((v,False))
-#         else:
-#             is_red =(color[u-1]=='R')
-#             if not tree[u]:
-#                 dp[u][1]=0
-#                 dp[u][2]=0
-#             else:
-#                 dp[u][0]=1
-#                 for v in tree[u]:
-#                     new_dp =[0]*3
-#                     for r1 in range(3):
-#                         if dp[u][r1]==0
                     
 import sys
 from collections import defaultdict
@@ -69,26 +36,25 @@ def solve():
             # 如果是叶子节点
             if not tree[u]:
                 # 可以选择1或2
-                dp[u][1] = 1
-                dp[u][2] = 1
+                dp[u][1 % 3] = 1
+                dp[u][2 % 3] = 1
                 if is_red:
                     # 红色叶子节点必须满足和是3的倍数，但1和2都不是3的倍数
-                    dp[u][1] = 0
-                    dp[u][2] = 0
+                    dp[u] = [0] * 3
             else:
-                # 非叶子节点，先初始化为1（乘法单位元）
-                dp[u][0] = 1
+                # 非叶子节点，初始化为[1,0,0]
+                dp[u] = [1, 0, 0]
                 for v in tree[u]:
                     # 合并子节点的dp
-                    new_dp = [0]*3
+                    temp = [0] * 3
                     for r1 in range(3):
                         if dp[u][r1] == 0:
                             continue
                         for r2 in range(3):
                             if dp[v][r2] > 0:
                                 new_r = (r1 + r2) % 3
-                                new_dp[new_r] = (new_dp[new_r] + dp[u][r1] * dp[v][r2]) % MOD
-                    dp[u] = new_dp
+                                temp[new_r] = (temp[new_r] + dp[u][r1] * dp[v][r2]) % MOD
+                    dp[u] = temp
                 
                 # 当前节点可以选择1或2
                 new_dp = [0]*3
@@ -108,7 +74,10 @@ def solve():
                     dp[u] = [0]*3
                     dp[u][0] = total
     
-    # 根节点的和必须是0
-    print(dp[1][0] % MOD)
+    # 根节点的和可以是任意值，因为题目只要求红色节点的子树和模3为0
+    total = 0
+    for r in range(3):
+        total = (total + dp[1][r]) % MOD
+    print(total)
 
 solve()
