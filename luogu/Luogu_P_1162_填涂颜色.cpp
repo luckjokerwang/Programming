@@ -10,10 +10,12 @@ void dfs(int x,int y){
     for(int dir=0;dir<4;dir++){
         int nx=x+dx[dir];
         int ny=y+dy[dir];
-       if(nx>=0&&nx<n&&ny>=0&&ny<n&&grid[nx][ny]==0){
+       if(nx>=0&&nx<n&&ny>=0&&ny<n&&grid[nx][ny]==0){//注意这里的判断条件,不能先写grid[nx][ny]=0,因为&&是短路与
+       {
            grid[nx][ny]=3;
            dfs(nx,ny);
        }
+    }
     }
 }
 signed main(){
