@@ -1,0 +1,1 @@
+{"name":"Luogu - P1141","url":"https://www.luogu.com.cn/problem/P1141","memoryLimit":131072,"timeLimit":1000,"tests":[{"id":1763740248910,"input":"2 2\n01\n10\n1 1\n2 2\n","output":"4\n4\n"}],"group":"luogu","srcPath":"/home/wzy/算法/Luogu_P_1141.cpp"}

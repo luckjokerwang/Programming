@@ -1,0 +1,1 @@
+{"name":"Luogu - P1104","url":"https://www.luogu.com.cn/problem/P1104","memoryLimit":131072,"timeLimit":1000,"tests":[{"id":1763646273637,"input":"3\nYangchu 1992 4 23\nQiujingya 1993 10 13\nLuowen 1991 8 1\n","output":"Luowen\nYangchu\nQiujingya\n"}],"group":"luogu","srcPath":"/home/wzy/算法/others/Luogu_P_1104.cpp"}
