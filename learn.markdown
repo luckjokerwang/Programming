@@ -67,7 +67,18 @@ int result = accumulate(v.begin(), v.end(), 0, [](int a, int b) {
 **头文件**：`#include <string>`
 
 ### 1. 基本操作
+```
+#include <iostream>
+#include <string>
+using namespace std;
 
+int main() {
+    string s;
+    getline(cin, s);  // 读取整行，包括空格
+    cout << s << endl;
+    return 0;
+}
+```
 **长度获取**：
 ```cpp
 string s = "hello";
@@ -126,7 +137,7 @@ string s = "hello world";
 s.find("world");         // 返回 6（首次出现位置）
 s.find("abc");           // 返回 string::npos（未找到）
 s.rfind("o");            // 返回 7（最后一次出现位置）
-
+s.find('o')!=string::npos; // 判断是否存在子串
 // 从指定位置开始查找
 s.find("o", 5);          // 从位置 5 开始查找 "o"
 ```
@@ -225,3 +236,9 @@ bool isPalindrome = (s == rev);
 - 字符串下标从 0 开始
 - `substr(pos, len)` 中 len 是长度，不是结束位置
 
+## 看到有mod就无脑用 :
+```
+define int long long
+signed main() {
+}
+    
