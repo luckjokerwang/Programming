@@ -1,3 +1,4 @@
+## 如果一个cout没有输出,大概率是死循环了
 ## 要常思考
 char+int = int;所有要用char(char +int)
 
@@ -241,4 +242,218 @@ bool isPalindrome = (s == rev);
 define int long long
 signed main() {
 }
-    
+
+## setprecision 用法
+原理: 设置输出浮点数的精度
+
+```cpp
+#include <iostream>
+using namespace std;
+        cout << fixed << setprecision(8);
+        == 设置小数点后8位
+        //举例子
+        double x = 3.141592653589793;
+        cout << fixed << setprecision(4) << x << "\n"; // 3.1416
+        cout << fixed << setprecision(10) << x << "\n"; // 3.1415926536
+```
+
+## 数学问题 - 数字拼接取模
+**问题类型**：D_183183.cpp
+
+**核心思路**：
+- 对于 f(a,b) = (a*10^d + b) % m，转换为 (a*10^d)%m + b%m ≡ 0 (mod m)
+- 预处理每个数的位数 d 和模 m 的结果
+- 用 map 统计 (d, mod) 组合的出现次数
+- 对每个 a，枚举所有位数 d，计算需要的模值 needed_mod = (m - (a*10^d)%m) % m
+
+**关键点**：
+```cpp
+// 计算 10^d % m 时要边乘边取模
+int pow10 = 1;
+for(int k = 0; k < d; k++){
+    pow10 = (pow10 * 10) % m;
+}
+```
+
+**易错点**：
+- 忘记对 10 的幂次取模，导致溢出
+- 公式推导：从 (a*10^d + b) % m = 0 推出需要的 b%m
+
+---
+
+## 字符串 - 回文扩展/连续字符
+**问题类型**：C_1122_Substring_2.cpp
+
+**核心思路**：
+- 找到所有满足 s[i] == s[i-1] + 1 的位置（连续递增）
+- 从这些位置向两边扩展，统计能形成多少对称的连续递增串
+
+**关键代码**：
+```cpp
+// 以 index[i] 为中心向两边扩展
+int num = 1;
+while(n-num-1 >= 0 && n+num < s.size() &&
+      s[n-num-1] == s[n-1] && s[n+num] == s[n]){
+    num++;
+}
+ans += num;
+```
+
+**思维要点**：
+- 类似回文串扩展，但条件是字符连续性
+- 注意边界检查：n-num-1 >= 0 和 n+num < s.size()
+
+---
+
+## 单调栈 - 找最近更大元素
+**问题类型**：B_Nearest_Taller.cpp
+
+**暴力做法问题**：
+```cpp
+// 当前代码 O(n²)，会超时
+for(int i = 1; i <= n; i++){
+    for(int j = i; j >= 1; j--){
+        if(a[i] < a[j]){
+            cout << j << endl;
+            break;
+        }
+    }
+}
+```
+
+**正确做法 - 单调栈 O(n)**：
+```cpp
+stack<int> st;  // 存储下标
+vector<int> ans(n+1, -1);
+for(int i = 1; i <= n; i++){
+    // 维护单调递减栈（栈顶最小）
+    while(!st.empty() && a[st.top()] < a[i]){
+        ans[st.top()] = i;
+        st.pop();
+    }
+    st.push(i);
+}
+```
+
+**教训**：
+- 看到"找左边/右边第一个更大/更小"的问题 → 想到单调栈
+- 暴力双重循环容易超时
+
+---
+
+## 数学枚举 - 线性方程求解
+**问题类型**：A_Happy_Birthday_4.cpp
+
+**思路**：
+- 求是否存在 i 使得 x+i = (y+i)*z
+- 化简：x + i = yz + iz → i(1-z) = yz - x → i = (yz-x)/(1-z)
+
+**优化点**：
+```cpp
+// 直接计算，不需要枚举 10000 次
+if(z == 1){
+    cout << (x == y ? "Yes" : "No") << endl;
+} else {
+    int numerator = y*z - x;
+    int denominator = 1 - z;
+    if(numerator % denominator == 0 && numerator / denominator >= 0){
+        cout << "Yes" << endl;
+    } else {
+        cout << "No" << endl;
+    }
+}
+```
+
+**教训**：
+- 能用数学公式直接算的不要暴力枚举
+- 注意特殊情况（z=1 时分母为 0）
+
+---
+
+## 计算几何 - 圆内三角形
+**问题类型**：简单的三角形构造_A组.cpp
+
+**核心思路**：
+1. 求点 P 到圆心的单位向量 (ux, uy)
+2. 若 d < r/2，取 d；否则最优距离为 r/2
+3. 最大面积：max_area = w * h，其中 w = √(r²-d²)，h = r+d
+4. 若 max_area < S，输出 -1
+
+**构造顶点**：
+```cpp
+double x1 = x - r*ux, y1 = y - r*uy;  // 顶点（圆边缘）
+double mx = x + d*ux, my = y + d*uy;  // 弦中点
+double x2 = mx - w*uy, y2 = my + w*ux;  // 底边点1（垂直方向）
+double x3 = mx + w*uy, y3 = my - w*ux;  // 底边点2
+```
+
+**易错点**：
+- 变量名复用（d 既表示距离又表示弦距）→ 应该用不同变量名
+- 忘记向量垂直化：(ux,uy) → (-uy,ux)
+- 浮点精度比较用 < s-1e-7 而不是 < s
+
+---
+
+## 树上匹配 - DFS + 染色
+**问题类型**：红和蓝_A组_B组.cpp
+
+**思路**：
+1. DFS 找完美匹配（每个节点都有配对）
+2. 从根节点开始染色，配对的两个点同色，相邻配对异色
+
+**关键代码**：
+```cpp
+// 匹配 DFS
+void dfs_match(int u, int p){
+    for(int v : adj[u]){
+        if(v == p) continue;
+        dfs_match(v, u);
+        if(!possible) return;  // 提前剪枝
+        if(match[v] == 0){
+            if(match[u] == 0){
+                match[v] = u; match[u] = v;
+            } else {
+                possible = false; return;
+            }
+        }
+    }
+}
+
+// 染色 DFS
+void dfs_color(int u, char c){
+    int partner = match[u];
+    color[u] = color[partner] = c;
+    char next_c = (c == 'R' ? 'B' : 'R');
+    // 递归处理 u 和 partner 的其他邻居
+}
+```
+
+**注意事项**：
+- n 必须是偶数才可能有完美匹配
+- 用 possible 标记提前终止，避免无效计算
+- 染色时要同时处理配对节点的所有邻居
+
+---
+
+## 刷题心得总结
+
+### 1. 模运算常见坑
+- **公式转换**：(a*b + c) % m = ((a*b)%m + c%m) % m
+- **幂次取模**：计算 10^d % m 时要边乘边取模
+- **见到 mod 就用 long long**
+
+### 2. 数据结构选择
+- 找"最近更大/更小" → **单调栈**
+- 统计 (key, value) 组合 → **map<int, map<int, int>>**
+- 树的遍历/匹配 → **DFS + 标记数组**
+
+### 3. 代码细节
+- **变量命名清晰**：不要复用变量（如 d 既表示距离又表示其他）
+- **边界检查**：数组访问前检查 i-1 >= 0 和 i+1 < n
+- **提前剪枝**：用 flag 标记提前 return，避免无效计算
+- **浮点比较**：用 s - 1e-7 而不是直接 < s
+
+### 4. 思维习惯
+- **先化简公式再编码**：数学问题先推导，能算就不枚举
+- **找规律**：字符串/序列问题找递推关系
+- **画图理解**：几何问题务必画图，标出向量和垂直关系

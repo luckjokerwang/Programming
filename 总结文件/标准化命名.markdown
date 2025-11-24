@@ -1,0 +1,181 @@
+在程序设计竞赛（ACM/ICPC, OI, Codeforces, 牛客等）中，命名规范与工业界软件开发（如后端开发）有很大不同。
+
+**工业界**追求：可读性、维护性（例如 `calculateTotalDistance`）。
+**竞赛界**追求：**输入速度**、**短小精悍**、**思维映射**（例如 `calc` 或 `dist`）。
+
+虽然竞赛代码可以“随性”，但形成一套**标准化的命名习惯**能极大地减少 Debug 时间，防止思维混乱（比如你之前的 `match` 和 `color` 变量名就起得很好）。
+
+以下是竞赛圈公认的、最高效的命名规范推荐：
+
+-----
+
+### 一、 通用变量名 (The Basics)
+
+这部分变量名几乎已经成为全球通用的“潜规则”：
+
+  * **输入规模**：
+      * `n`, `m`: 通常表示行/列，节点数/边数，或数组长度。
+      * `t` 或 `T`: 测试用例组数 (Test cases)。
+      * `k`: 一般用于题目给定的常数或阈值。
+      * `q`: 查询次数 (Queries)。
+  * **循环变量**：
+      * `i`, `j`, `k`: 最常用的三层循环计数器。
+  * **答案与统计**：
+      * `ans`, `res`: 最终答案 (Answer / Result)。
+      * `cnt`: 计数器 (Count)。
+      * `sum`: 求和。
+      * `cur`, `now`: 当前值 (Current)。
+      * `pre`, `last`: 上一个值 (Previous)。
+      * `tmp`: 临时变量 (Temporary)。
+
+-----
+
+### 二、 图论与搜索 (Graph & Search)
+
+你最近在练习图论，这部分的命名非常重要，**混淆 `u` 和 `v` 是很多 Bug 的根源**。
+
+  * **图的存储**：
+      * `adj[N]`: 邻接表 (Adjacency List)，或者直接用 `g[N]` (Graph)。
+      * `edges`: 存边的结构体数组。
+  * **点与边**：
+      * `u`, `v`: 一条边的起点和终点（`u` -\> `v`）。
+      * `w`: 边的权重 (Weight)。
+      * `fa[u]` 或 `p[u]`: 父节点 (Father / Parent)。
+  * **状态数组**：
+      * `vis[N]` 或 `st[N]`: 访问标记 (Visited / Status)。
+      * `dist[N]` 或 `dis[N]`: 距离 (Distance)。
+      * `color[N]` 或 `col[N]`: 染色数组。
+      * `deg[N]` 或 `in[N]`, `out[N]`: 度数 (Degree, In-degree, Out-degree)。
+
+-----
+
+### 三、 动态规划 (DP)
+
+DP 的命名核心在于**让变量名体现状态的含义**。
+
+  * **数组**：
+      * `dp[i][j]` 或 `f[i][j]`: 最常见的状态数组。
+      * `w[i]`, `v[i]`: 物品的重量 (Weight) 和价值 (Value)。
+  * **转移辅助**：
+      * `mx`: 最大值 (Max)。
+      * `mn`: 最小值 (Min)。
+
+-----
+
+### 四、 几何与坐标 (Geometry)
+
+这是你刚做过的题目类型，规范命名能避免方向搞反。
+
+  * **坐标**：
+      * `x`, `y`, `z`: 坐标点。
+      * `tx`, `ty` 或 `nx`, `ny`: 目标坐标 (Target) 或 下一个坐标 (Next)。
+  * **向量与增量**：
+      * `dx`, `dy`: 坐标的变化量（方向数组）。
+        ```cpp
+        int dx[] = {0, 0, 1, -1};
+        int dy[] = {1, -1, 0, 0};
+        ```
+      * `ux`, `uy`: 单位向量 (Unit Vector) 或方向向量。
+  * **几何属性**：
+      * `r`: 半径 (Radius)。
+      * `d`: 距离 (Distance)。
+      * `s`: 面积 (Area/Surface)。
+
+-----
+
+### 五、 数据结构简写
+
+  * `mp`: `map` 或 `unordered_map`。
+  * `pq`: `priority_queue`。
+  * `q`: `queue`。
+  * `stk`: `stack`。
+  * `vec`: `vector`。
+  * `s`: `string` 或 `set`。
+
+-----
+
+### 六、 常量与宏定义 (Macros & Constants)
+
+在 C++ 竞赛代码头部常见的定义：
+
+  * **最大值 (Infinity)**：
+      * `INF`: 通常定义为 `0x3f3f3f3f` (int范围) 或 `1e18` (long long范围)。
+  * **数组大小限制**：
+      * `MAXN`: 题目给定的 N 的最大值（通常要开大一点，如 `1e5 + 5`）。
+  * **取模**：
+      * `MOD`: `1e9 + 7` 或 `998244353`。
+  * **类型缩写** (为了打字快)：
+      * `ll`: `long long`
+      * `pii`: `pair<int, int>`
+      * `vi`: `vector<int>`
+
+-----
+
+### 七、 函数命名 (Functions)
+
+  * `solve()`: 处理每组测试用例的主逻辑函数。
+  * `check(x)`: 二分答案或模拟时的合法性检查函数。
+  * `qpow(a, b)`: 快速幂 (Quick Power)。
+  * `gcd(a, b)`: 最大公约数。
+  * `dfs()`, `bfs()`: 搜索。
+  * `init()`: 初始化函数。
+
+-----
+
+### 💡 一个标准的“竞赛风”代码结构示例
+
+结合你之前的题目，一个规范的模板应该是这样的：
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+// 1. 类型和常数定义
+using ll = long long;
+using pii = pair<int, int>;
+const int MAXN = 2e5 + 5;
+const int INF = 0x3f3f3f3f;
+
+// 2. 全局变量 (数组开在全局防止爆栈)
+int n, m;
+vector<int> adj[MAXN]; // 邻接表
+int dist[MAXN];        // 距离
+bool vis[MAXN];        // 访问标记
+
+// 3. 辅助函数
+bool check(int x) {
+    // ... 检查逻辑
+    return true;
+}
+
+// 4. 核心逻辑
+void solve() {
+    cin >> n >> m;
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    
+    // 你的逻辑...
+    int ans = 0;
+    cout << ans << endl;
+}
+
+// 5. 主函数 (处理多组数据)
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    
+    int t = 1;
+    // cin >> t; // 如果有多组数据就取消注释
+    while (t--) {
+        solve();
+    }
+    return 0;
+}
+```
+
+**下一步建议**：
+要不要我帮你把你常用的代码片段（比如快读、GCD、并查集等）整理成一份 **VS Code 用户代码片段 (User Snippets)**？这样你比赛时敲几个字母就能直接生成模板。

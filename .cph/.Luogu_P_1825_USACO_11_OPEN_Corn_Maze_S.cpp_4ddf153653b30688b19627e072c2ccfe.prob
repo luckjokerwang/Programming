@@ -1,0 +1,1 @@
+{"name":"Luogu - P1825 - [USACO11OPEN] Corn Maze S","url":"https://www.luogu.com.cn/problem/P1825","memoryLimit":524288,"timeLimit":1000,"tests":[{"id":1763970095507,"input":"5 6\n###=##\n#.W.##\n#.####\n#.@W##\n######\n","output":"3"}],"group":"luogu","srcPath":"/home/wzy/算法/Luogu_P_1825_USACO_11_OPEN_Corn_Maze_S.cpp"}
